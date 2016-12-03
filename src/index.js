@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import BookList from './componenets/BookList'
+import {data} from './data';
 
 ReactDOM.render(
-  <App />,
+  <BookList books={data.books}/>,
   document.getElementById('root')
 );
