@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {data} from '../data';
+import {data} from '../../data';
 
 const Author = ({authorId}) => {
   const author = data.authors[authorId];

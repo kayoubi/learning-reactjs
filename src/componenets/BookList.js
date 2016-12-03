@@ -7,7 +7,7 @@ class BookList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {books: props.books};
+    this.state = {books: []};
   }
 
   render() {
@@ -23,6 +23,14 @@ class BookList extends React.Component {
         <Form addBook={this.addBook}/>
       </ul>
     );
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:8000/api/books")
+      .then(response => response.json())
+      .then(books => {
+        this.setState({books: books})
+      })
   }
 
   addBook = (title, price) => {
