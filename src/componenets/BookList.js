@@ -3,11 +3,15 @@ import React from 'react';
 import Book from './Book'
 import Form from './Form'
 
+import configureStore from '../store';
+import * as actions from '../actions';
+
 class BookList extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {books: []};
+    this.store = configureStore();
+    this.state = this.store.getState();
+    // this.state = {books: []};
   }
 
   render() {
@@ -26,27 +30,34 @@ class BookList extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8000/api/books")
-      .then(response => response.json())
-      .then(books => {
-        this.setState({books: books})
-      })
+    this.unsubscribe = this.store.subscribe(() => {
+      this.setState(this.store.getState());
+    });
+
+    this.store.dispatch(actions.fetchBooks());
+    // fetch("http://localhost:8000/api/books")
+    //   .then(response => response.json())
+    //   .then(books => {
+    //     this.setState({books: books})
+    //   })
+  }
+
+  componenetWillUnmount() {
+    this.unsubscribe();
   }
 
   addBook = (title, price) => {
-    console.log(title);
-
-    const newBooks = this.state.books.concat({
-      id: new Date(),
-      title,
-      price
-    });
-    this.setState({books: newBooks});
+    // const newBooks = this.state.books.concat({
+    //   id: new Date(),
+    //   title,
+    //   price
+    // });
+    // this.setState({books: newBooks});
   };
 
   removeBook = bookId => {
-    const newBooks = this.state.books.filter(book => book.id !== bookId);
-    this.setState({books: newBooks})
+    // const newBooks = this.state.books.filter(book => book.id !== bookId);
+    // this.setState({books: newBooks})
   }
 }
 
